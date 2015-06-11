@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30723.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bolt.Monad", "Bolt.MayBe\Bolt.Monad.csproj", "{D6CDD529-F7AF-4533-BB45-FF4CADFB7AF2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bolt.Monad.UnitTests", "Bolt.Monad.UnitTests\Bolt.Monad.UnitTests.csproj", "{286F161D-D723-472E-B1B7-EA89E92BD2DC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D6CDD529-F7AF-4533-BB45-FF4CADFB7AF2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6CDD529-F7AF-4533-BB45-FF4CADFB7AF2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6CDD529-F7AF-4533-BB45-FF4CADFB7AF2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6CDD529-F7AF-4533-BB45-FF4CADFB7AF2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{286F161D-D723-472E-B1B7-EA89E92BD2DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{286F161D-D723-472E-B1B7-EA89E92BD2DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{286F161D-D723-472E-B1B7-EA89E92BD2DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{286F161D-D723-472E-B1B7-EA89E92BD2DC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
