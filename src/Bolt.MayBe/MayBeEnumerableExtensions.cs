@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace Bolt.Monad
 {
     public static class MayBeEnumerableExtensions
     {
+        [DebuggerStepThrough]
         public static MayBe<IEnumerable<T>> ForEach<T>(this MayBe<IEnumerable<T>> source, Action<T> action)
         {
             if (!source.HasValue) return source;
@@ -18,16 +20,19 @@ namespace Bolt.Monad
             return source;
         }
 
+        [DebuggerStepThrough]
         public static MayBe<IEnumerable<T>> IfNotEmpty<T>(this MayBe<IEnumerable<T>> source)
         {
             return WhenNotEmpty(source);
         }
 
+        [DebuggerStepThrough]
         public static MayBe<IEnumerable<T>> WhenNotEmpty<T>(this MayBe<IEnumerable<T>> source)
         {
             return WhenHasItem(source);
         }
 
+        [DebuggerStepThrough]
         public static MayBe<IEnumerable<T>> WhenHasItem<T>(this MayBe<IEnumerable<T>> source)
         {
             if (!source.HasValue) return source;
@@ -35,6 +40,7 @@ namespace Bolt.Monad
             return source.Value.Any() ? source : MayBe<IEnumerable<T>>.None;
         }
 
+        [DebuggerStepThrough]
         public static MayBe<IEnumerable<TOutput>> Select<TInput, TOutput>(this MayBe<IEnumerable<TInput>> source,
             Func<TInput, TOutput> selector)
         {
@@ -43,6 +49,39 @@ namespace Bolt.Monad
                     : source.Value.Select(selector.Invoke).MayBe();
         }
 
+        [DebuggerStepThrough]
+        public static MayBe<T> FirstOrDefault<T>(this MayBe<IEnumerable<T>> source)
+        {
+            return !source.HasValue
+                    ? MayBe<T>.None
+                    : source.Value.FirstOrDefault().MayBe();
+        }
+
+        [DebuggerStepThrough]
+        public static MayBe<T> FirstOrDefault<T>(this MayBe<IEnumerable<T>> source, Func<T,bool> predicate)
+        {
+            return !source.HasValue
+                    ? MayBe<T>.None
+                    : source.Value.FirstOrDefault(predicate).MayBe();
+        }
+
+        [DebuggerStepThrough]
+        public static MayBe<T> SingleOrDefault<T>(this MayBe<IEnumerable<T>> source, Func<T,bool> predicate)
+        {
+            return !source.HasValue
+                    ? MayBe<T>.None
+                    : source.Value.SingleOrDefault(predicate).MayBe();
+        }
+
+        [DebuggerStepThrough]
+        public static MayBe<T> SingleOrDefault<T>(this MayBe<IEnumerable<T>> source)
+        {
+            return !source.HasValue
+                    ? MayBe<T>.None
+                    : source.Value.SingleOrDefault().MayBe();
+        }
+
+        [DebuggerStepThrough]
         public static MayBe<IEnumerable<TOutput>> SelectMany<TInput, TOutput>(this MayBe<IEnumerable<TInput>> source,
             Func<TInput, IEnumerable<TOutput>> selector)
         {

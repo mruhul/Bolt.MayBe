@@ -1,4 +1,7 @@
-﻿using Shouldly;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Net.NetworkInformation;
+using Shouldly;
 using Xunit;
 
 namespace Bolt.Monad.UnitTests
@@ -23,6 +26,38 @@ namespace Bolt.Monad.UnitTests
             var maybe = MayBe<int>.None;
             maybe.HasValue.ShouldBe(false);
             maybe.IsNone.ShouldBe(true);
+
+            var value = (string)null;
+            value.MayBe().IsNone.ShouldBe(true);
         }
+    }
+
+    public class MayBeExtensionsTests
+    {
+        [Fact]
+        public void Select_Should_Return_Correct_Value()
+        {
+            Person person = new Person{ Name = "test"};
+            person.MayBe().Select(x => x.Name).Value.ShouldBe("test");
+
+            MayBe<Person> nullPerson = (Person)null;
+            nullPerson.Select(x => x.Name).Value.ShouldBeNullOrEmpty();
+
+            IEnumerable<Person> list = new List<Person>{ new Person{ Name = "test"} };
+
+            list.MayBe().Select(x => new { name = x.Name }).FirstOrDefault().Select(x => x.name).Value.ShouldBe("test");
+
+        }
+    }
+
+    public class Person
+    {
+        public string Name { get; set; }
+        public IEnumerable<Contact> Contacts { get; set; } 
+    }
+
+    public class Contact
+    {
+        public string Phone { get; set; }
     }
 }
