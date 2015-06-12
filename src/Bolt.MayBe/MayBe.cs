@@ -25,7 +25,7 @@ namespace Bolt.Monad
 
         public static implicit operator MayBe<T>(T value)
         {
-            return new MayBe<T>(value);
+            return value == null ? None : new MayBe<T>(value);
         }
 
         public static implicit operator T(MayBe<T> maybe)
