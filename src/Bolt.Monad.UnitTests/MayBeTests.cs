@@ -28,7 +28,7 @@ namespace Bolt.Monad.UnitTests
             maybe.IsNone.ShouldBe(true);
 
             var value = (string)null;
-            value.MayBe().IsNone.ShouldBe(true);
+            value.MayBeNotNull().IsNone.ShouldBe(true);
         }
     }
 
@@ -38,14 +38,14 @@ namespace Bolt.Monad.UnitTests
         public void Select_Should_Return_Correct_Value()
         {
             Person person = new Person{ Name = "test"};
-            person.MayBe().Select(x => x.Name).Value.ShouldBe("test");
+            person.MayBeNotNull().Select(x => x.Name).Value.ShouldBe("test");
 
             MayBe<Person> nullPerson = (Person)null;
             nullPerson.Select(x => x.Name).Value.ShouldBeNullOrEmpty();
 
             IEnumerable<Person> list = new List<Person>{ new Person{ Name = "test"} };
 
-            list.MayBe().Select(x => new { name = x.Name }).FirstOrDefault().Select(x => x.name).Value.ShouldBe("test");
+            list.MayBeNotNull().Select(x => new { name = x.Name }).FirstOrDefault().Select(x => x.name).Value.ShouldBe("test");
 
         }
     }

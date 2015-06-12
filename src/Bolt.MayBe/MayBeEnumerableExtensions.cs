@@ -44,9 +44,9 @@ namespace Bolt.Monad
         public static MayBe<IEnumerable<TOutput>> Select<TInput, TOutput>(this MayBe<IEnumerable<TInput>> source,
             Func<TInput, TOutput> selector)
         {
-            return !source.HasValue 
-                    ? MayBe<IEnumerable<TOutput>>.None 
-                    : source.Value.Select(selector.Invoke).MayBe();
+            return !source.HasValue
+                ? MayBe<IEnumerable<TOutput>>.None
+                : source.Value.Select(selector.Invoke).MayBeNotNull();
         }
 
         [DebuggerStepThrough]
@@ -54,7 +54,7 @@ namespace Bolt.Monad
         {
             return !source.HasValue
                     ? MayBe<T>.None
-                    : source.Value.FirstOrDefault().MayBe();
+                    : source.Value.FirstOrDefault().MayBeNotNull();
         }
 
         [DebuggerStepThrough]
@@ -62,7 +62,7 @@ namespace Bolt.Monad
         {
             return !source.HasValue
                     ? MayBe<T>.None
-                    : source.Value.FirstOrDefault(predicate).MayBe();
+                    : source.Value.FirstOrDefault(predicate).MayBeNotNull();
         }
 
         [DebuggerStepThrough]
@@ -70,7 +70,7 @@ namespace Bolt.Monad
         {
             return !source.HasValue
                     ? MayBe<T>.None
-                    : source.Value.SingleOrDefault(predicate).MayBe();
+                    : source.Value.SingleOrDefault(predicate).MayBeNotNull();
         }
 
         [DebuggerStepThrough]
@@ -78,7 +78,7 @@ namespace Bolt.Monad
         {
             return !source.HasValue
                     ? MayBe<T>.None
-                    : source.Value.SingleOrDefault().MayBe();
+                    : source.Value.SingleOrDefault().MayBeNotNull();
         }
 
         [DebuggerStepThrough]
@@ -91,7 +91,7 @@ namespace Bolt.Monad
                          from item in selector.Invoke(s)
                          select item;
 
-            return result.MayBe();
+            return result.MayBeNotNull();
         } 
     }
 }

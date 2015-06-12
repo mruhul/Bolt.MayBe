@@ -18,6 +18,11 @@ namespace Bolt.Monad
         public bool HasValue { get; private set; }
         public bool IsNone { get { return !HasValue; } }
 
+        public T ValueOrDefault(T defaultValue)
+        {
+            return HasValue ? Value : defaultValue; 
+        }
+
         public static implicit operator MayBe<T>(T value)
         {
             return new MayBe<T>(value);

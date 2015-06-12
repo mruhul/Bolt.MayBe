@@ -12,6 +12,12 @@ namespace Bolt.Monad
         }
 
         [DebuggerStepThrough]
+        public static MayBe<T> MayBeNotNull<T>(this T source)
+        {
+            return source == null ? Monad.MayBe<T>.None : new MayBe<T>(source);
+        }
+        
+        [DebuggerStepThrough]
         public static MayBe<TOutput> Get<TInput,TOutput>(this MayBe<TInput> source, Func<TInput,TOutput> fetch)
         {
             return Select(source, fetch);
@@ -21,7 +27,7 @@ namespace Bolt.Monad
         public static MayBe<TOutput> Select<TInput, TOutput>(this MayBe<TInput> source, Func<TInput, TOutput> fetch)
         {
             return source.HasValue
-                ? fetch.Invoke(source.Value).MayBe()
+                ? fetch.Invoke(source.Value).MayBeNotNull()
                 : Monad.MayBe<TOutput>.None;
         }
 
@@ -85,7 +91,7 @@ namespace Bolt.Monad
         public static MayBe<TOutput> Otherwise<TInput,TOutput>(this MayBe<TInput> source, Func<TOutput> func)
         {
             return !source.HasValue 
-                    ? func.Invoke().MayBe() 
+                    ? func.Invoke().MayBeNotNull() 
                     : Monad.MayBe<TOutput>.None;
         }
     }
