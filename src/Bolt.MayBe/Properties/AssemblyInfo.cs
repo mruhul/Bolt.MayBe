@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Bolt.MayBe")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("Bolt.Monad")]
+[assembly: AssemblyDescription("Simple monad library")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Bolt.MayBe")]
+[assembly: AssemblyCompany("Mohammad Ruhul Amin")]
+[assembly: AssemblyProduct("Bolt.Monad")]
 [assembly: AssemblyCopyright("Copyright ©  2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
