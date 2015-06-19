@@ -1,5 +1,6 @@
 using System;
 using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace Bolt.Monad
 {
@@ -8,13 +9,26 @@ namespace Bolt.Monad
         [DebuggerStepThrough]
         public static MayBe<T> MayBe<T>(this T source)
         {
-            return new MayBe<T>(source);
+            return source == null ? Monad.MayBe<T>.None : new MayBe<T>(source);
         }
 
         [DebuggerStepThrough]
         public static MayBe<T> MayBeNotNull<T>(this T source)
         {
-            return source == null ? Monad.MayBe<T>.None : new MayBe<T>(source);
+            return MayBe(source);
+        }
+
+        [DebuggerStepThrough]
+        public static async Task<MayBe<T>> MayBe<T>(this Task<T> source)
+        {
+            var value = await source;
+            return MayBe(value);
+        }
+
+        [DebuggerStepThrough]
+        public static Task<MayBe<T>> MayBeNotNull<T>(this Task<T> source)
+        {
+            return MayBe(source);
         }
         
         [DebuggerStepThrough]
@@ -30,7 +44,7 @@ namespace Bolt.Monad
                 ? fetch.Invoke(source.Value).MayBeNotNull()
                 : Monad.MayBe<TOutput>.None;
         }
-
+        
         [DebuggerStepThrough]
         public static MayBe<T> Do<T>(this MayBe<T> source, Action<T> action)
         {
@@ -88,11 +102,11 @@ namespace Bolt.Monad
         }
         
         [DebuggerStepThrough]
-        public static MayBe<TOutput> Otherwise<TInput,TOutput>(this MayBe<TInput> source, Func<TOutput> func)
+        public static MayBe<T> Otherwise<T>(this MayBe<T> source, Func<T> func)
         {
             return !source.HasValue 
                     ? func.Invoke().MayBeNotNull() 
-                    : Monad.MayBe<TOutput>.None;
+                    : source;
         }
     }
 }
