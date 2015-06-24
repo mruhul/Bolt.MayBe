@@ -42,6 +42,7 @@
     <Compile Include="MayBe.cs" />
     <Compile Include="MayBeEnumerableExtensions.cs" />
     <Compile Include="MayBeExtensions.cs" />
+    <Compile Include="MayBeGuidExtensions.cs" />
     <Compile Include="MayBeStringExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
