@@ -26,6 +26,26 @@ namespace Bolt.Monad
         }
 
         [DebuggerStepThrough]
+        public static MayBe<TOutput> Cast<TInput,TOutput>(this MayBe<TInput> source) 
+            where TInput : class 
+            where TOutput : class
+        {
+            return source.HasValue
+                ? (source.Value as TOutput).MayBe()
+                : Monad.MayBe<TOutput>.None;
+        }
+
+        [DebuggerStepThrough]
+        public static MayBe<TOutput> MayCast<TInput, TOutput>(this TInput source)
+            where TInput : class
+            where TOutput : class
+        {
+            return source != null
+                ? (source as TOutput).MayBe()
+                : Monad.MayBe<TOutput>.None;
+        }
+
+        [DebuggerStepThrough]
         public static Task<MayBe<T>> MayBeNotNull<T>(this Task<T> source)
         {
             return MayBe(source);
