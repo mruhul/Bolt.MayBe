@@ -21,59 +21,49 @@ namespace Bolt.Monad
         }
 
         [DebuggerStepThrough]
-        public static MayBe<IEnumerable<T>> IfNotEmpty<T>(this MayBe<IEnumerable<T>> source)
+        public static MayBe<IEnumerable<T>> OtherwiseDefault<T>(this MayBe<IEnumerable<T>> source)
         {
-            return WhenNotEmpty(source);
+            return source.Otherwise(Enumerable.Empty<T>);
         }
 
         [DebuggerStepThrough]
-        public static MayBe<IEnumerable<T>> WhenNotEmpty<T>(this MayBe<IEnumerable<T>> source)
+        public static MayBe<IEnumerable<T>> WhenAny<T>(this MayBe<IEnumerable<T>> source)
         {
-            return WhenHasItem(source);
+            return source.When(value => value.Any());
         }
 
         [DebuggerStepThrough]
-        public static MayBe<IEnumerable<T>> WhenHasItem<T>(this MayBe<IEnumerable<T>> source)
+        public static MayBe<IEnumerable<T>> WhenEmpty<T>(this MayBe<IEnumerable<T>> source)
         {
-            if (!source.HasValue) return source;
-
-            return source.Value.Any() ? source : MayBe<IEnumerable<T>>.None;
+            return source.When(value => !value.Any());
         }
-        
+
         [DebuggerStepThrough]
         public static MayBe<IEnumerable<TOutput>> Select<TInput, TOutput>(this MayBe<IEnumerable<TInput>> source,
             Func<TInput, TOutput> selector)
         {
-            return !source.HasValue
-                ? MayBe<IEnumerable<TOutput>>.None
-                : source.Value.Select(selector.Invoke).MayBeNotNull();
+            return source.Map(items => items.Select(selector.Invoke));
         }
 
         [DebuggerStepThrough]
         public static MayBe<IEnumerable<TOutput>> Select<TInput, TOutput>(this MayBe<TInput[]> source,
             Func<TInput, TOutput> selector)
         {
-            return !source.HasValue
-                ? MayBe<IEnumerable<TOutput>>.None
-                : source.Value.Select(selector.Invoke).MayBeNotNull();
+            return source.Map(items => items.Select(selector.Invoke));
         }
 
         [DebuggerStepThrough]
         public static MayBe<IEnumerable<TOutput>> Select<TInput, TOutput>(this MayBe<ICollection<TInput>> source,
             Func<TInput, TOutput> selector)
         {
-            return !source.HasValue
-                ? MayBe<IEnumerable<TOutput>>.None
-                : source.Value.Select(selector.Invoke).MayBeNotNull();
+            return source.Map(items => items.Select(selector.Invoke));
         }
 
         [DebuggerStepThrough]
         public static MayBe<IEnumerable<TOutput>> Select<TInput, TOutput>(this MayBe<IList<TInput>> source,
             Func<TInput, TOutput> selector)
         {
-            return !source.HasValue
-                ? MayBe<IEnumerable<TOutput>>.None
-                : source.Value.Select(selector.Invoke).MayBeNotNull();
+            return source.Map(items => items.Select(selector.Invoke));
         }
         
         [DebuggerStepThrough]
@@ -81,7 +71,7 @@ namespace Bolt.Monad
         {
             return !source.HasValue
                     ? MayBe<T>.None
-                    : source.Value.FirstOrDefault().MayBeNotNull();
+                    : new MayBe<T>(source.Value.FirstOrDefault());
         }
 
         [DebuggerStepThrough]
@@ -89,7 +79,7 @@ namespace Bolt.Monad
         {
             return !source.HasValue
                     ? MayBe<T>.None
-                    : source.Value.FirstOrDefault(predicate).MayBeNotNull();
+                    : new MayBe<T>(source.Value.FirstOrDefault());
         }
 
         [DebuggerStepThrough]
@@ -97,7 +87,7 @@ namespace Bolt.Monad
         {
             return !source.HasValue
                     ? MayBe<T>.None
-                    : source.Value.SingleOrDefault(predicate).MayBeNotNull();
+                    : new MayBe<T>(source.Value.SingleOrDefault());
         }
 
         [DebuggerStepThrough]
@@ -105,7 +95,7 @@ namespace Bolt.Monad
         {
             return !source.HasValue
                     ? MayBe<T>.None
-                    : source.Value.SingleOrDefault().MayBeNotNull();
+                    : new MayBe<T>(source.Value.SingleOrDefault());
         }
 
         [DebuggerStepThrough]
@@ -118,7 +108,7 @@ namespace Bolt.Monad
                          from item in selector.Invoke(s)
                          select item;
 
-            return result.MayBeNotNull();
+            return new MayBe<IEnumerable<TOutput>>(result);
         } 
     }
 }

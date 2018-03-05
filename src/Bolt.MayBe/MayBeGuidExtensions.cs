@@ -5,44 +5,50 @@ namespace Bolt.Monad
 {
     public static class MayBeGuidExtensions
     {
-        [DebuggerStepThrough]
-        public static MayBe<Guid> MayBeNotEmpty(this Guid source)
+        public static MayBe<Guid> NotEmpty(this MayBe<Guid> source)
         {
-            return source == Guid.Empty 
-                ? MayBe<Guid>.None 
-                : new MayBe<Guid>(source, true);
+            return source.When(value => value != Guid.Empty);
         }
 
-        [DebuggerStepThrough]
         public static MayBe<Guid> WhenNotEmpty(this MayBe<Guid> source)
         {
-            return source.HasValue && source.Value == Guid.Empty 
-                ? MayBe<Guid>.None 
-                : source;
+            return source.When(value => value != Guid.Empty);
+        }
+
+        public static MayBe<Guid> Empty(this MayBe<Guid> source)
+        {
+            return source.When(value => value == Guid.Empty);
+        }
+
+        public static MayBe<Guid> WhenEmpty(this MayBe<Guid> source)
+        {
+            return source.When(value => value == Guid.Empty);
+        }
+
+        public static MayBe<Guid?> NotEmpty(this MayBe<Guid?> source)
+        {
+            return source.When(value => value != Guid.Empty);
+        }
+
+        public static MayBe<Guid?> WhenNotEmpty(this MayBe<Guid?> source)
+        {
+            return source.When(value => value != Guid.Empty);
+        }
+
+        public static MayBe<Guid?> Empty(this MayBe<Guid?> source)
+        {
+            return source.When(value => value == Guid.Empty);
+        }
+
+        public static MayBe<Guid?> WhenEmpty(this MayBe<Guid?> source)
+        {
+            return source.When(value => value == Guid.Empty);
         }
 
         [DebuggerStepThrough]
-        public static MayBe<Guid?> MayBeNotNullOrEmpty(this Guid? source)
+        public static MayBe<Guid?> OtherwiseEmpty(this MayBe<Guid?> source)
         {
-            return source.HasValue && source.Value != Guid.Empty
-                ? new MayBe<Guid?>(source, true)
-                : MayBe<Guid?>.None;
-        }
-
-        [DebuggerStepThrough]
-        public static MayBe<Guid?> WhenNotNullOrEmpty(this MayBe<Guid?> source)
-        {
-            return source.HasValue && source.Value != Guid.Empty
-                ? source
-                : MayBe<Guid?>.None;
-        }
-
-        [DebuggerStepThrough]
-        public static Guid ValueOrEmpty(this MayBe<Guid?> source)
-        {
-            return source.HasValue && source.Value.HasValue 
-                    ? source.Value.Value 
-                    : Guid.Empty;
+            return source.Otherwise(Guid.Empty);
         }
     }
 }

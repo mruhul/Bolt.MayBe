@@ -3,35 +3,33 @@ namespace Bolt.Monad
     public class MayBe<T>
     {
         public static readonly MayBe<T> None = new MayBe<T>();
-        
-        private MayBe()
+
+        private readonly bool _hasValue = false;
+
+        internal MayBe()
         {
         }
 
-        public MayBe(T value)
+        internal MayBe(T value)
+            : this(value, value != null)
         {
-            Value = value;
-            HasValue = value != null;
         }
 
         internal MayBe(T value, bool hasValue)
         {
             Value = value;
-            HasValue = hasValue;
+            _hasValue = hasValue;
         }
+
 
         public T Value { get; private set; }
-        public bool HasValue { get; private set; }
-        public bool IsNone { get { return !HasValue; } }
 
-        public T ValueOrDefault(T defaultValue)
-        {
-            return HasValue ? Value : defaultValue; 
-        }
-
+        public bool HasValue => _hasValue;
+        public bool IsNone => !_hasValue;
+        
         public static implicit operator MayBe<T>(T value)
         {
-            return value == null ? None : new MayBe<T>(value, true);
+            return value == null ? None : new MayBe<T>(value);
         }
 
         public static implicit operator T(MayBe<T> maybe)

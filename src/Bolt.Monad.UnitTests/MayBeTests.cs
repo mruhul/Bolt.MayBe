@@ -20,6 +20,17 @@ namespace Bolt.Monad.UnitTests
             MayBe<int> zero = 0;
             zero.HasValue.ShouldBe(true);
 
+            zero.WhenGreaterThanZero().HasValue.ShouldBe(false);
+
+            var data = 10;
+
+            data.MayBe().WhenGreaterThanZero().Otherwise(11).Value.ShouldBe(10);
+
+
+            data = 0;
+
+            data.MayBe().WhenGreaterThanZero().Otherwise(11).Value.ShouldBe(11);
+
             MayBe<int?> nullInt = (int?) null;
             nullInt.HasValue.ShouldBe(false);
 
@@ -28,24 +39,24 @@ namespace Bolt.Monad.UnitTests
             maybe.IsNone.ShouldBe(true);
 
             var value = (string)null;
-            value.MayBeNotNull().IsNone.ShouldBe(true);
+            value.MayBe().IsNone.ShouldBe(true);
         }
     }
 
     public class MayBeExtensionsTests
     {
         [Fact]
-        public void Select_Should_Return_Correct_Value()
+        public void Map_Should_Return_Correct_Value()
         {
             Person person = new Person{ Name = "test"};
-            person.MayBeNotNull().Select(x => x.Name).Value.ShouldBe("test");
+            person.MayBe().Map(x => x.Name).Value.ShouldBe("test");
 
             MayBe<Person> nullPerson = (Person)null;
-            nullPerson.Select(x => x.Name).Value.ShouldBeNullOrEmpty();
+            nullPerson.Map(x => x.Name).Value.ShouldBeNullOrEmpty();
 
             IEnumerable<Person> list = new List<Person>{ new Person{ Name = "test"} };
 
-            list.MayBeNotNull().Select(x => new { name = x.Name }).FirstOrDefault().Select(x => x.name).Value.ShouldBe("test");
+            list.MayBe().Select(x => new { name = x.Name }).FirstOrDefault().Map(x => x.name).Value.ShouldBe("test");
 
         }
     }
