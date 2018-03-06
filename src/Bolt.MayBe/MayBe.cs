@@ -2,8 +2,6 @@ namespace Bolt.Monad
 {
     public class MayBe<T>
     {
-        public static readonly MayBe<T> None = new MayBe<T>();
-
         private readonly bool _hasValue = false;
 
         internal MayBe()
@@ -21,6 +19,7 @@ namespace Bolt.Monad
             _hasValue = hasValue;
         }
 
+        public static MayBe<T> None => new MayBe<T>();
 
         public T Value { get; private set; }
 

@@ -6,7 +6,7 @@
     <TargetFrameworks>netstandard1.6;net452</TargetFrameworks>
     <PackageId>Bolt.Monad</PackageId>
     <AssemblyName>Bolt.Monad</AssemblyName>
-    <Version>2.0.0-beta</Version>
+    <Version>2.0.0-beta1</Version>
   </PropertyGroup>
 
 </Project>
